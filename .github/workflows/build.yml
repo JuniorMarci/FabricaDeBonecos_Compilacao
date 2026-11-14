@@ -1,6 +1,7 @@
 name: Build
 on: [push, workflow_dispatch]
 jobs:
+  # Job para Windows (x64) e Linux (x64)
   build:
     strategy:
       matrix:
@@ -13,8 +14,6 @@ jobs:
         with:
           node-version: 18
 
-      # Instala as bibliotecas gráficas e de som do Electron
-      # Usa o nome libasound2t64 exigido pelas versões novas do Ubuntu
       - name: Install Linux dependencies
         if: matrix.os == 'ubuntu-latest'
         run: |
@@ -35,4 +34,32 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: build-${{ matrix.os }}
+          path: dist/
+
+  # NOVO JOB: Compilação para Linux ARM64
+  build-arm64:
+    runs-on: ubuntu-24.04-arm  # Runner nativo ARM64 do GitHub
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      # Instala dependências nativas do ARM64
+      - name: Install Linux ARM64 dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgtk-3-0 libnotify4 libnss3 libxss1 libxtst6 \
+            xdg-utils libatspi2.0-0 libdrm2 libgbm1 libasound2t64
+
+      - run: npm install
+
+      # Compila especificamente para ARM64
+      - name: Build Linux (ARM64)
+        run: npx electron-builder --linux --arm64 --publish never
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: build-linux-arm64
           path: dist/
