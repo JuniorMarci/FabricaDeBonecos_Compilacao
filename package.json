@@ -1,3 +1,18 @@
+{
+  "name": "fabrica-de-bonecos",
+  "version": "1.0.0",
+  "description": "Fábrica de Bonecos - jogo em HTML5",
+  "main": "main.js",
+  "author": "Vibe",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder"
+  },
+  "devDependencies": {
+    "electron": "22.3.27",
+    "electron-builder": "^24.13.3"
+  },
   "build": {
     "appId": "com.vibe.fabricadebonecos",
     "productName": "FabricaDeBonecos",
@@ -11,14 +26,30 @@
     },
     "win": {
       "target": [
-        { "target": "nsis", "arch": ["x64"] },
-        { "target": "portable", "arch": ["x64"] }
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
       ]
     },
     "linux": {
       "target": [
-        { "target": "AppImage", "arch": ["x64"] }
+        {
+          "target": "AppImage",
+          "arch": [
+            "x64"
+          ]
+        }
       ],
       "category": "Fan Game"
     }
   }
+}
