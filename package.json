@@ -1,0 +1,40 @@
+{
+  "name": "fabrica-de-bonecos",
+  "version": "1.0.0",
+  "description": "Fábrica de Bonecos - jogo em HTML5",
+  "main": "main.js",
+  "author": "Seu Nome",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder"
+  },
+  "devDependencies": {
+    "electron": "22.3.27",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.seunome.fabricadebonecos",
+    "productName": "FabricaDeBonecos",
+    "files": [
+      "index.html",
+      "main.js",
+      "package.json"
+    ],
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": [
+        { "target": "nsis", "arch": ["x64"] },
+        { "target": "portable", "arch": ["x64"] }
+      ]
+    },
+    "linux": {
+      "target": [
+        { "target": "AppImage", "arch": ["x64", "ia32"] }
+      ],
+      "category": "Game"
+    }
+  }
+}
