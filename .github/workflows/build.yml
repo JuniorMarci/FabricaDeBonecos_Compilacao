@@ -8,16 +8,17 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
+      
       - uses: actions/setup-node@v4
         with:
           node-version: 18
 
-      - name: Install 32-bit dependencies (Linux only)
+      # Passo extra essencial para o Linux não falhar por falta de bibliotecas
+      - name: Install Linux dependencies
         if: matrix.os == 'ubuntu-latest'
         run: |
-          sudo dpkg --add-architecture i386
           sudo apt-get update
-          sudo apt-get install --no-install-recommends -y gcc-multilib g++-multilib
+          sudo apt-get install -y libgtk-3-0 libnotify4 libnss3 libxss1 libxtst6 xdg-utils libatspi2.0-0 libdrm2 libgbm1 libasound2
 
       - run: npm install
 
@@ -25,9 +26,9 @@ jobs:
         if: matrix.os == 'windows-latest'
         run: npx electron-builder --win --x64 --publish never
 
-      - name: Build Linux (x64 + ia32)
+      - name: Build Linux (x64)
         if: matrix.os == 'ubuntu-latest'
-        run: npx electron-builder --linux --x64 --ia32 --publish never
+        run: npx electron-builder --linux --x64 --publish never
 
       - uses: actions/upload-artifact@v4
         with:
