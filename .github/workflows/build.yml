@@ -13,12 +13,14 @@ jobs:
         with:
           node-version: 18
 
-      # Passo extra essencial para o Linux não falhar por falta de bibliotecas
+      # Instala as bibliotecas gráficas e de som do Electron
+      # Usa o nome libasound2t64 exigido pelas versões novas do Ubuntu
       - name: Install Linux dependencies
         if: matrix.os == 'ubuntu-latest'
         run: |
           sudo apt-get update
-          sudo apt-get install -y libgtk-3-0 libnotify4 libnss3 libxss1 libxtst6 xdg-utils libatspi2.0-0 libdrm2 libgbm1 libasound2
+          sudo apt-get install -y libgtk-3-0 libnotify4 libnss3 libxss1 libxtst6 \
+            xdg-utils libatspi2.0-0 libdrm2 libgbm1 libasound2t64
 
       - run: npm install
 
